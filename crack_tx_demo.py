@@ -18,9 +18,6 @@ from lib.config import config as cfg
 
 
 class CrackSlider():
-    """
-    通过浏览器截图，识别验证码中缺口位置，获取需要滑动距离，并模仿人类行为破解滑动验证码
-    """
 
     def __init__(self):
         super(CrackSlider, self).__init__()
