@@ -11,7 +11,7 @@ from PIL import Image
 
 # desc: 收集顶象带有凹槽的背景图像和工具
 # date: 2019.5.08 15.12
-# author: maowenjie
+# author: maoge
 import match
 
 
