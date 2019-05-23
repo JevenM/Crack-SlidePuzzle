@@ -1,7 +1,7 @@
 # _*_coding:UTF-8_*_
 """
 date: 2019.04.26/2019.04.30
-author: maowenjie
+author: maoge
 crack taobao slide-captcha
 success rate: 100%
 """
