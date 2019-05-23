@@ -12,7 +12,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 
-# 在线体验成功率很高，定位不是很准确，不检测滑动轨迹特征
+# 在线体验成功率很高，不检测滑动轨迹特征
 import match
 import slide
 
