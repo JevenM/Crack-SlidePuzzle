@@ -2,8 +2,6 @@ from pylab import *
 import random
 import math
 
-
-# 此方式也很准确，但是不符合人类滑动轨迹
 import darw
 
 
