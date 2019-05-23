@@ -20,7 +20,7 @@ def ret_log_4(distance):
     return y
 
 
-# 使用下面这个轨迹通过不了，即使位置定位很准确
+
 # 返回轨迹, div划分为几段
 def ret_log(distance, div):
     print("log函数接受的distance: ", distance)
