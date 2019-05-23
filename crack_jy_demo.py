@@ -19,9 +19,6 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 
 '''
-破解Geetest验证码，使用像素对比和OpenCV
-成功率13/24
-
 2019.05.05 大更新
 '''
 
