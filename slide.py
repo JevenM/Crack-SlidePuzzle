@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*-
 # @Time    : 5/5/2019 2:44 PM
-# @Author  : maowenjie
+# @Author  : maoge
 # @File    : sllide.py
 # @Software: PyCharm
 # @desc    : ways to slide the block
