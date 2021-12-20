@@ -25,7 +25,7 @@ class CrackSlider:
         options = webdriver.ChromeOptions()
         options.add_argument('--ignore-certificate-errors')
         # 不加这一行说明chrome.exe的位置会报错
-        options.binary_location = r"D:\\Google\Chrome\\Application\chrome.exe"
+        # options.binary_location = r"D:\\Google\Chrome\\Application\chrome.exe"
         self.driver = webdriver.Chrome(chrome_options=options)
         self.wait = WebDriverWait(self.driver, 20)
         self.zoom = 1
@@ -40,19 +40,32 @@ class CrackSlider:
 
     def get_pic(self):
         time.sleep(2)
+        path3 = self.driver.find_element_by_xpath("/html/body/main/div[1]/div/div[2]/div[2]/ul/li[3]")
+        path1 = self.driver.find_element_by_xpath("/html/body/main/div[1]/div/div[2]/div[2]/ul/li[1]")
+
+        self.driver.execute_script("arguments[0].setAttribute(arguments[1],arguments[2])", path1, 'class','tcapt-tabs__tab')
+        self.driver.execute_script("arguments[0].setAttribute(arguments[1],arguments[2])", path3, 'class','tcapt-tabs__tab active')
+        
+        js = 'document.querySelector("body > main > div.g-bd > div > div.g-mn2 > div.m-tcapt > ul > li.tcapt-tabs__tab.active").click();'
+        self.driver.execute_script(js)
+
+        time.sleep(2)
+        self.driver.find_element_by_xpath("/html/body/main/div[1]/div/div[2]/div[2]/div[1]/div[3]/div/div/div[2]/div[3]/button").click()
+        
         # 定位到的第一个元素即可，即使页面有多个class也不怕
         # 以下两个条件验证元素是否出现，传入的参数都是元组类型的locator，如(By.ID, ‘kw’) 
         # 顾名思义，一个只要一个符合条件的元素加载出来就通过；另一个必须所有符合条件的元素都加载出来才行 
         # presence_of_element_located 
         # presence_of_all_elements_located
+        time.sleep(2)
         target = self.wait.until(EC.presence_of_element_located((By.CLASS_NAME, 'yidun_bg-img')))
         template = self.wait.until(EC.presence_of_element_located((By.CLASS_NAME, 'yidun_jigsaw')))
         target_link = target.get_attribute('src')
         template_link = template.get_attribute('src')
         target_img = Image.open(BytesIO(requests.get(target_link).content))
         template_img = Image.open(BytesIO(requests.get(template_link).content))
-        self.targname = "all_type/wy/target_demo.jpg"
-        self.tempname = 'all_type/wy/template_demo.png'
+        self.targname = "target_demo.jpg"
+        self.tempname = 'template_demo.png'
         target_img.save(self.targname)
         template_img.save(self.tempname)
         local_img = Image.open(self.targname)
@@ -197,28 +210,17 @@ class CrackSlider:
         ActionChains(self.driver).release().perform()
         # 必须等待两秒，不然获得不了下面的value值
         time.sleep(2)
-        if not self.driver.find_element_by_xpath(
-                "/html/body/main/div/div/div[2]/div[2]/div[1]/div/div[2]/div[3]/div/input").get_attribute('value'):
+        try:
+            self.driver.find_element_by_xpath(
+                "/html/body/main/div[1]/div/div[2]/div[2]/div[1]/div[3]/div/div/div[3]/div[2]/div/div/div[2]/div/div[2]/div[3]/span[2]").text==""
             # 背景会变化，需要重新下载图片
-            self.unsuccess += 1
-            print("失败！次数: ", self.unsuccess)
-            self.begin()
-        else:
             self.success += 1
             print("成功！次数: ", self.success)
             self.begin()
-
-        # 还可以采取这种思路
-        # try: failure = self.wait.until(EC.text_to_be_present_in_element((By.CLASS_NAME,
-        # 'yidun_tips__text'), '向右滑动滑块填充拼图'))
-        # print(failure)
-
-        # except:
-        #     print('验证成功')
-        #     return None
-
-        # if failure:
-        #     self.crack_slider()
+        except:
+            self.unsuccess += 1
+            print("失败！次数: ", self.unsuccess)
+            self.begin()
 
     def begin(self):
         self.open()
@@ -227,7 +229,6 @@ class CrackSlider:
         print("zoom： %f" % self.zoom)
         self.tracks = self.get_tracks((distance + 7) * cs.zoom)  # 对位移的缩放计算
         self.crack_slider()
-
 
 if __name__ == '__main__':
     cs = CrackSlider()
